@@ -82,7 +82,7 @@ def Init():
     else:
         print("UR5e not connected. Simulation only.")
 
-def pick_object():
+def Pick_object():
     print("")
     robot.setSpeed(20)
     robot.MoveJ(App_shake_target, True)
@@ -100,7 +100,7 @@ def pick_object():
         send_ur_script(movel_app_shake)
         receive_response(timel)
 
-def show_object():
+def Show_object():
     print("Give me 5!")
     robot.setSpeed(20)
     robot.MoveL(App_give5_target, True)
@@ -141,8 +141,8 @@ def main():
     global robot_is_connected
     robot_is_connected = check_robot_port(ROBOT_IP, ROBOT_PORT)
     Init()
-    pick_object_object()
-    show_object()
+    Pick_object()
+    Show_object()
     if robot_is_connected:
         robot_socket.close()
 
