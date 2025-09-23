@@ -83,12 +83,11 @@ def Init():
         print("UR5e not connected. Simulation only.")
 
 def pick_object():
-    print("Hand Shake")
+    print("")
     robot.setSpeed(20)
-    robot.MoveL(App_shake_target, True)
+    robot.MoveJ(App_shake_target, True)
     robot.setSpeed(100)
     robot.MoveL(Shake_target, True)
-    robot.MoveL(App_shake_target, True)
     print("Hand Shake FINISHED")
     if robot_is_connected:
         print("App_shake REAL UR5e")
