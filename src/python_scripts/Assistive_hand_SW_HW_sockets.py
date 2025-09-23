@@ -82,7 +82,7 @@ def Init():
     else:
         print("UR5e not connected. Simulation only.")
 
-def Hand_shake():
+def pick_object():
     print("Hand Shake")
     robot.setSpeed(20)
     robot.MoveL(App_shake_target, True)
@@ -101,7 +101,7 @@ def Hand_shake():
         send_ur_script(movel_app_shake)
         receive_response(timel)
 
-def Give_me_5():
+def show_object():
     print("Give me 5!")
     robot.setSpeed(20)
     robot.MoveL(App_give5_target, True)
@@ -142,8 +142,8 @@ def main():
     global robot_is_connected
     robot_is_connected = check_robot_port(ROBOT_IP, ROBOT_PORT)
     Init()
-    Hand_shake()
-    Give_me_5()
+    pick_object_object()
+    show_object()
     if robot_is_connected:
         robot_socket.close()
 
