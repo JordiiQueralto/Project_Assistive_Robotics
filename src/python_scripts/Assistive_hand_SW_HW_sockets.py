@@ -86,9 +86,13 @@ def Init():
 def Pick_object():
     print("")
     robot.setSpeed(20)
-    robot.MoveJ(App_shake_target, True)
+    robot.MoveJ(Control_1_target, True)
     robot.setSpeed(100)
-    robot.MoveL(Shake_target, True)
+    robot.MoveL(Wrist_turn_target, True)
+    robot.setSpeed(100)
+    robot.MoveL(Pick_target, True)
+    robot.setSpeed(100)
+    robot.MoveL(Wrist_turn_target, True)
     print("Hand Shake FINISHED")
     if robot_is_connected:
         print("App_shake REAL UR5e")
@@ -104,10 +108,9 @@ def Pick_object():
 def Show_object():
     print("Give me 5!")
     robot.setSpeed(20)
-    robot.MoveL(App_give5_target, True)
+    robot.MoveJ(Control_2_target, True)
     robot.setSpeed(100)
-    robot.MoveL(Give5_target, True)
-    robot.MoveL(App_give5_target, True)
+    robot.MoveL(Show_target, True)
     print("Give me 5! FINISHED")
     if robot_is_connected:
         print("Give5 REAL UR5e")
