@@ -40,11 +40,12 @@ timel = 4
 
 # URScript commands
 set_tcp = "set_tcp(p[0.000000, 0.000000, 0.050000, 0.000000, 0.000000, 0.000000])"
-movej_init = f"movej([0.000000,  -400.000000,   500.000000,    90.000000,     0.000000,     0.000000 ],1.20000,0.75000,{timel},0.0000)"
-movel_app_shake = f"movel([  -418.501404,  -696.214783,   300.000000,    90.000000,    -0.000000,    -0.000000 ],{accel_mss},{speed_ms},{timel},0.000)"
-movel_shake = f"movel([  -418.501404,  -696.214783,   300.000000,    90.000000,    -0.000000,    -0.000000 ],{accel_mss},{speed_ms},{timel/2},0.000)"
-movel_app_give5 = f"movel([-2.280779, -1.556743, -2.129529, 5.257071, -1.570796, 2.280779],{accel_mss},{speed_ms},{timel},0.000)"
-movel_give5 = f"movel([-2.195869, -1.642206, -2.040971, 5.253965, -1.570796, 2.195869],{accel_mss},{speed_ms},{timel/2},0.000)"
+movej_init = f"movej([0.000000, -400.000000, 500.000000,  90.000000, 0.000000, 0.000000],1.20000,0.75000,{timel},0.0000)"
+movel_control_1 = f"movel([-370.000000, -550.000000, 300.000000, 90.000000, 0.000000, -0.000000 ],{accel_mss},{speed_ms},{timel},0.000)"
+movel_wrist_turn = f"movel([-370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
+movel_pick = f"movel([-370.000000, -550.000000, 100.000000, 71.452000, -65.790000, 65.790000 ],{accel_mss},{speed_ms},{timel},0.000)"
+movel_control_2 = f"movel([370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
+movel_show = f"movel([370.000000, -550.000000, 299.999998, 70.503450, 67.345216, -67.343711 ],{accel_mss},{speed_ms},{timel/2},0.000)"
 
 # Check robot connection
 def check_robot_port(ip, port):
@@ -72,7 +73,7 @@ def receive_response(t):
 # Movements
 def Init():
     print("Init")
-    robot.MoveL(Init_target, True)
+    robot.MoveJ(Init_target, True)
     print("Init_target REACHED")
     if robot_is_connected:
         print("Init REAL UR5e")
@@ -93,34 +94,33 @@ def Pick_object():
     robot.MoveL(Pick_target, True)
     robot.setSpeed(100)
     robot.MoveL(Wrist_turn_target, True)
-    print("Hand Shake FINISHED")
+    print("An object has been picked!")
     if robot_is_connected:
-        print("App_shake REAL UR5e")
+        print("Pick_object REAL UR5e")
         send_ur_script(set_tcp)
         receive_response(1)
-        send_ur_script(movel_app_shake)
+        send_ur_script(movel_control_1)
         receive_response(timel)
-        send_ur_script(movel_shake)
+        send_ur_script(movel_wrist_turn)
         receive_response(timel)
-        send_ur_script(movel_app_shake)
+        send_ur_script(movel_pick)
+        receive_response(timel)
+        send_ur_script(movel_wrist_turn)
         receive_response(timel)
 
 def Show_object():
-    print("Give me 5!")
     robot.setSpeed(20)
     robot.MoveL(Control_2_target, True)
     robot.setSpeed(100)
     robot.MoveL(Show_target, True)
-    print("Give me 5! FINISHED")
+    print("The object has been gived, FINISHED")
     if robot_is_connected:
         print("Give5 REAL UR5e")
         send_ur_script(set_tcp)
         receive_response(1)
-        send_ur_script(movel_app_give5)
+        send_ur_script(movel_control_2)
         receive_response(timel)
-        send_ur_script(movel_give5)
-        receive_response(timel)
-        send_ur_script(movel_app_give5)
+        send_ur_script(movel_show)
         receive_response(timel)
 
 # Confirmation dialog to close RoboDK
