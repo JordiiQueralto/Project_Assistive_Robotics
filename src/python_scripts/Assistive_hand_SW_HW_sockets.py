@@ -86,7 +86,7 @@ def Init():
 def Pick_object():
     print("")
     robot.setSpeed(20)
-    robot.MoveJ(Control_1_target, True)
+    robot.MoveL(Control_1_target, True)
     robot.setSpeed(100)
     robot.MoveL(Wrist_turn_target, True)
     robot.setSpeed(100)
@@ -108,7 +108,7 @@ def Pick_object():
 def Show_object():
     print("Give me 5!")
     robot.setSpeed(20)
-    robot.MoveJ(Control_2_target, True)
+    robot.MoveL(Control_2_target, True)
     robot.setSpeed(100)
     robot.MoveL(Show_target, True)
     print("Give me 5! FINISHED")
