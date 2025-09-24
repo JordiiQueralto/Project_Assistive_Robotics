@@ -41,8 +41,7 @@ timel = 4
 # URScript commands
 set_tcp = "set_tcp(p[0.000000, 0.000000, 0.050000, 0.000000, 0.000000, 0.000000])"
 movej_init = f"movej([0.000000, -400.000000, 500.000000,  90.000000, 0.000000, 0.000000],1.20000,0.75000,{timel},0.0000)"
-movel_control_1 = f"movel([-370.000000, -550.000000, 300.000000, 90.000000, 0.000000, -0.000000 ],{accel_mss},{speed_ms},{timel},0.000)"
-movel_wrist_turn = f"movel([-370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
+movel_control_1 = f"movel([-370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
 movel_pick = f"movel([-370.000000, -550.000000, 100.000000, 71.452000, -65.790000, 65.790000 ],{accel_mss},{speed_ms},{timel},0.000)"
 movel_control_2 = f"movel([370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
 movel_show = f"movel([370.000000, -550.000000, 299.999998, 70.503450, 67.345216, -67.343711 ],{accel_mss},{speed_ms},{timel/2},0.000)"
@@ -89,11 +88,9 @@ def Pick_object():
     robot.setSpeed(20)
     robot.MoveL(Control_1_target, True)
     robot.setSpeed(100)
-    robot.MoveL(Wrist_turn_target, True)
-    robot.setSpeed(100)
     robot.MoveL(Pick_target, True)
     robot.setSpeed(100)
-    robot.MoveL(Wrist_turn_target, True)
+    robot.MoveL(Control_1_target, True)
     print("An object has been picked!")
     if robot_is_connected:
         print("Pick_object REAL UR5e")
@@ -101,11 +98,9 @@ def Pick_object():
         receive_response(1)
         send_ur_script(movel_control_1)
         receive_response(timel)
-        send_ur_script(movel_wrist_turn)
-        receive_response(timel)
         send_ur_script(movel_pick)
         receive_response(timel)
-        send_ur_script(movel_wrist_turn)
+        send_ur_script(movel_control_1)
         receive_response(timel)
 
 def Show_object():
@@ -147,6 +142,7 @@ def main():
     Init()
     Pick_object()
     Show_object()
+    Init()
     if robot_is_connected:
         robot_socket.close()
 
