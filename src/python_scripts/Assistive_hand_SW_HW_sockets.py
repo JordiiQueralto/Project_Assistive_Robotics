@@ -72,6 +72,7 @@ def receive_response(t):
 # Movements
 def Init():
     print("Init")
+    robot.setSpeed(100)
     robot.MoveJ(Init_target, True)
     print("Init_target REACHED")
     if robot_is_connected:
@@ -85,11 +86,12 @@ def Init():
 
 def Pick_object():
     print("")
-    robot.setSpeed(20)
+    robot.setSpeed(100)
     robot.MoveL(Control_1_target, True)
-    robot.setSpeed(100)
+    robot.setSpeed(30)
     robot.MoveL(Pick_target, True)
-    robot.setSpeed(100)
+    # Faltaria un petit stop aqui
+    robot.setSpeed(50)
     robot.MoveL(Control_1_target, True)
     print("An object has been picked!")
     if robot_is_connected:
@@ -104,10 +106,11 @@ def Pick_object():
         receive_response(timel)
 
 def Show_object():
-    robot.setSpeed(20)
-    robot.MoveL(Control_2_target, True)
     robot.setSpeed(100)
+    robot.MoveL(Control_2_target, True)
+    robot.setSpeed(30)
     robot.MoveL(Show_target, True)
+    # S'hauria de posar un stop aqui perque li dongui temps al metge d'agafar l'objecte
     print("The object has been gived, FINISHED")
     if robot_is_connected:
         print("Give5 REAL UR5e")
