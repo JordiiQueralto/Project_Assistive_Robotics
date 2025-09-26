@@ -20,7 +20,6 @@ base = RDK.Item("UR5e Base")
 tool = RDK.Item('Hand')
 Init_target = RDK.Item('Init')
 Control_1_target = RDK.Item('Control_1')
-Wrist_turn_target = RDK.Item('Wrist_turn')
 Pick_target = RDK.Item('Pick')
 Control_2_target = RDK.Item('Control_2')
 Show_target = RDK.Item('Show')
@@ -39,12 +38,13 @@ timej = 6
 timel = 4
 
 # URScript commands
+# RoboDK dona les coordenades en mm i graus pero en URScript necessitem m i rad
 set_tcp = "set_tcp(p[0.000000, 0.000000, 0.050000, 0.000000, 0.000000, 0.000000])"
-movej_init = f"movej([0.000000, -400.000000, 500.000000,  90.000000, 0.000000, 0.000000],1.20000,0.75000,{timel},0.0000)"
-movel_control_1 = f"movel([-370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
-movel_pick = f"movel([-370.000000, -550.000000, 100.000000, 71.452000, -65.790000, 65.790000 ],{accel_mss},{speed_ms},{timel},0.000)"
-movel_control_2 = f"movel([370.000000, -550.000000, 300.000000, 71.451574, -65.789850, 65.789845 ],{accel_mss},{speed_ms},{timel/2},0.000)"
-movel_show = f"movel([370.000000, -550.000000, 299.999998, 70.503450, 67.345216, -67.343711 ],{accel_mss},{speed_ms},{timel/2},0.000)"
+movej_init = f"movej(p[0.000000, -0.400000, 0.500000, 1.570796, 0.000000, 0.000000],1.20000,0.75000,{accel_mss},{speed_ms},{timel},0.000)"
+movel_control_1 = f"movel(p[-0.370000, -0.550000, 0.300000, 1.246816, -1.148274, 1.148274],{accel_mss},{speed_ms},{timel/2},0.000)"
+movel_pick = f"movel(p[-0.370000, -0.550000, 0.100000, 1.246817, -1.148274, 1.148274],{accel_mss},{speed_ms},{timel},0.000)"
+movel_control_2 = f"movel(p[0.370000, -0.550000, 0.300000, 1.246816, -1.148274, 1.148274],{accel_mss},{speed_ms},{timel/2},0.000)"
+movel_show = f"movel(p[0.370000, -0.550000, 0.300000, 1.230584, 1.175535, -1.175509],{accel_mss},{speed_ms},{timel/2},0.000)"
 
 # Check robot connection
 def check_robot_port(ip, port):
@@ -90,7 +90,8 @@ def Pick_object():
     robot.MoveL(Control_1_target, True)
     robot.setSpeed(30)
     robot.MoveL(Pick_target, True)
-    # Faltaria un petit stop aqui
+    # Petit stop per agafar l'objecte
+    time.sleep(1)
     robot.setSpeed(50)
     robot.MoveL(Control_1_target, True)
     print("An object has been picked!")
